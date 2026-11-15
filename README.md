@@ -14,6 +14,12 @@ No dependencies. Python 3.9+ and its standard library; the database is SQLite.
 
 ---
 
+![Legacy vs rebuild: the same six stages, but only the rebuild logs what it drops](docs/legacy_vs_rebuild.svg)
+
+Editable source: [`docs/legacy_vs_rebuild.excalidraw`](docs/legacy_vs_rebuild.excalidraw)
+(open at [excalidraw.com](https://excalidraw.com)). Regenerate with
+`python3 tools/make_diagram.py`.
+
 ## The result
 
 The legacy workflow and the rebuilt pipeline were run on identical inputs and
