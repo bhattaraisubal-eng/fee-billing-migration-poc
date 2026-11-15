@@ -113,7 +113,7 @@ def build():
     down("s5", 545 + BH, 650)
 
     node("rect", "b5", BX, 650, BW, BH,
-         "5. Reconcile against legacy\n05_parity.sql + 13 tests", GREEN, GREEN_FILL)
+         "5. Reconcile against legacy\n05_parity.sql + 14 tests", GREEN, GREEN_FILL)
     down("s6", 650 + BH, 745)
     node("diamond", "d2", CX - 140, 745, 280, 120,
          "Every variance\nattributed?", GREEN, "#b2f2bb", 17, 3)

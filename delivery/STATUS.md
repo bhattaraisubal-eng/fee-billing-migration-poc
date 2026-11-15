@@ -9,18 +9,18 @@ One page, four questions. If you only read one thing, read "Decisions needed fro
 ## Where we are
 
 The target build runs end to end and reconciles against the legacy invoice run.
-All 13 arithmetic and control tests pass. Every one of the 118 accounts where
+All 14 arithmetic and control tests pass. Every one of the 118 accounts where
 the two runs disagree is attributed to a specific decision; nothing is
 unexplained.
 
 | | Legacy | Target |
 |---|---|---|
 | Accounts invoiced | 116 | 115 |
-| Fees invoiced | $622,914.34 | $711,973.18 |
-| Exceptions reported | 0 | 29 |
+| Fees invoiced | $622,914.34 | $717,153.72 |
+| Exceptions reported | 0 | 33 |
 | Unexplained variances | n/a | 0 |
 
-The target invoices **$89,058.84 more**, up 14.3%. That is almost entirely the
+The target invoices **$94,239.38 more**, up 15.1%. That is almost entirely the
 tier correction: the legacy workflow applied one rate to a client's whole
 balance instead of the marginal bands the published schedule describes. The firm
 has been **underbilling**, not overbilling, on 38 accounts.
@@ -31,7 +31,7 @@ has been **underbilling**, not overbilling, on 38 accounts.
 |---|---|
 | As-is analysis and gap log | Drafted, needs business sign-off on 7 open decisions |
 | Target build (staging → dimensions → AUM → fees) | Complete |
-| Exception framework | Complete, 24 reason codes |
+| Exception framework | Complete, 25 reason codes |
 | Parity harness and defect log | Complete, 0 defects outstanding |
 | Power BI exception and recon report | Not started, 1 day |
 | Port from SQLite proof to Azure SQL / Fabric | Not started, 2 days — see `target/PORTING.md` |
@@ -63,7 +63,7 @@ in `analysis/GAP_LOG.md`.
 
 | # | Decision | Why it cannot wait |
 |---|---|---|
-| 1 | Marginal or cliff tiering | Sets the restatement question. $88,236 on this quarter alone |
+| 1 | Marginal or cliff tiering | Sets the restatement question. $91,877 on this quarter alone |
 | 2 | Household aggregation: confirm the 16, and resolve the 4 mixed-schedule households | $27.4M unpriceable until resolved |
 | 3 | Mid-period opens: prorate or bill the full period | One client held assets for 2 days and was invoiced $27,295 |
 | 4 | Closed accounts: raise a final prorated fee | $28,247 on one account this quarter, never invoiced |

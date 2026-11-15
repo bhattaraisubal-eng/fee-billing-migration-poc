@@ -45,7 +45,7 @@ REBUILD = [
     ("3. Build billable AUM", None),
     ("4. Join, unmatched logged", None),
     ("5. Marginal tiers, days / 365", None),
-    ("6. billing 115, exceptions 29", "every variance attributed, 0 defects"),
+    ("6. billing 115, exceptions 33", "every variance attributed, 0 defects"),
 ]
 
 LEFT_X, RIGHT_X, COL_W, BOX_H = 60, 480, 320, 58
@@ -96,7 +96,7 @@ def build():
             text(f"r{i+1}_note", RIGHT_X + 4, y + BOX_H + 5, rn, 16, GREEN_TEXT)
 
     rect("exc", EXC["x"], EXC["y"], EXC["w"], EXC["h"],
-         "exception_log\n\n29 rows\n24 reason codes\n10 blocking",
+         "exception_log\n\n33 rows\n25 reason codes\n10 blocking",
          AMBER, YELLOW_FILL, 18, 3)
 
     # Stages 2-4 of the rebuild each send excluded records to the one log.

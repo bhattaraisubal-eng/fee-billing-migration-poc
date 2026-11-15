@@ -20,6 +20,15 @@ Editable source: [`docs/legacy_vs_rebuild.excalidraw`](docs/legacy_vs_rebuild.ex
 (open at [excalidraw.com](https://excalidraw.com)). Regenerate with
 `python3 tools/make_diagram.py`.
 
+## Microsoft Fabric
+
+The production target is in [`fabric/`](fabric/README.md): Lakehouse for files,
+Warehouse for the logic, T-SQL stored procedures with a single transactional
+entry point, and a pipeline design. It maps every one of the 13 Alteryx tools to
+its replacement. Its logic is verified locally against this build, to the cent;
+it has not yet been run in a Fabric tenant, and the Fabric README states exactly
+what that leaves unproven.
+
 ## The result
 
 The legacy workflow and the rebuilt pipeline were run on identical inputs and
@@ -28,22 +37,22 @@ reconciled account by account.
 | | Legacy | Target |
 |---|---|---|
 | Accounts invoiced | 116 | 115 |
-| Fees invoiced | $622,914.34 | $711,973.18 |
-| Exceptions reported | **0** | 29 |
+| Fees invoiced | $622,914.34 | $717,153.72 |
+| Exceptions reported | **0** | 33 |
 | Unexplained variances | n/a | **0** |
 
-The target invoices **$89,058.84 more**, up 14.3%, and every dollar of that
+The target invoices **$94,239.38 more**, up 15.1%, and every dollar of that
 difference traces to a specific decision:
 
 | Cause | Accounts | Net effect |
 |---|---|---|
-| Marginal tiers replace one rate on the whole balance | 38 | $88,236.09 |
+| Marginal tiers replace one rate on the whole balance | 38 | $91,877.23 |
 | Fee prorated to days actually held | 2 | −$28,707.85 |
 | Closed account's final fee now raised | 1 | $28,247.14 |
-| Household tiering applied as contracted | 27 | $19,259.31 |
+| Household tiering applied as contracted | 25 | $19,259.31 |
 | Priced on the account's own schedule, not Standard | 9 | −$8,114.20 |
 | Unrecognised schedule code held for pricing | 1 | −$8,236.83 |
-| Duplicate account row no longer double-bills | 1 | −$3,715.88 |
+| Duplicate account row no longer double-bills | 1 | −$2,176.48 |
 | Untrimmed join key — client had never been billed | 1 | $1,287.24 |
 | Status outside the `ACTIVE` filter — revenue had stopped | 1 | $1,077.60 |
 | Remaining day-count, duplicate-position and null-price effects | 36 | −$273.78 |
@@ -78,6 +87,28 @@ about them.
 
 Every remaining workflow goes through the same loop. Each failed gate returns to the step that can fix it: an unsigned decision goes back to the gap log, an unexplained variance goes back to the build, and an uncleared blocking exception reruns the parallel quarter. Editable source: [`docs/migration_process.excalidraw`](docs/migration_process.excalidraw).
 
+## A defect in my own first build, and how it was caught
+
+The first version of the target SQL picked one price per ticker per account. When
+an account held two lots of the same ticker on the same date, it kept one lot
+and dropped the other with no record. That is the same kind of silent loss the
+migration exists to remove. One account was billed on $771,204 instead of
+$1,509,262.
+
+The reconciliation did not catch it. That account also had a duplicated row in
+the account extract, so its variance was attributed to that duplicate and looked
+explained. It was caught when the logic was written a second time, in T-SQL for
+Fabric. The two implementations disagreed on that one account, and the
+disagreement led to the bug.
+
+The fix keeps every lot on the price date and logs multiple lots as a review
+exception, `E26`, because a second lot can also be a custodian restatement. A
+test now rebuilds every account's AUM straight from the holdings file in plain
+Python, so the fee test is no longer checking the SQL against its own output.
+
+The lesson for the remaining workflows: attribution explains a variance, but it
+does not prove the target is right. An independent recalculation does.
+
 ## How parity is proved
 
 Matching totals prove nothing. The test is whether every account where the two
@@ -92,7 +123,7 @@ and a non-empty defect log blocks cutover.
 independently typed copy of the published schedule, and asserts five invariants:
 no fee on a non-positive balance, every unbilled account has a logged reason,
 proration within the period, every effective rate inside its schedule's bands,
-and zero unexplained variances. 13 tests, all passing.
+and zero unexplained variances. 14 tests, all passing.
 
 ## What changed in the rebuild
 
@@ -103,7 +134,7 @@ and zero unexplained variances. 13 tests, all passing.
 | Household tiering | Never ran; a note says Operations does it in a spreadsheet | Aggregated where contracted, 16 households |
 | Period accrual | Fixed divisor of 4 | Actual days held over 365 |
 | Mid-period opens and closes | Billed a full quarter, or not at all | Prorated to the day |
-| Excluded records | Discarded at five points, unlogged | 24 reason codes in `exception_log` |
+| Excluded records | Discarded at five points, unlogged | 25 reason codes in `exception_log` |
 | Join keys | Untrimmed, case-sensitive | Normalised on load, changes raised |
 | Null prices | Silently contributed zero | Excluded and raised as blocking |
 | Valuation date | Hard-coded literal, edited each quarter | Period parameter in `ref_billing_period` |
@@ -116,6 +147,9 @@ legacy/
   WORKFLOW_AS_BUILT.md                 tool-by-tool record of what it does
 analysis/
   GAP_LOG.md                           20 gaps: options, recommendation, impact
+fabric/
+  README.md                            tool-by-tool mapping, deploy steps, pipeline
+  sql/00-09_*.sql                      Fabric Warehouse T-SQL
 target/
   01_schema.sql                        staging, dimensions, facts, exception log
   02_conform.sql                       key normalisation, validation, dedupe
@@ -124,7 +158,7 @@ target/
   PORTING.md                           SQLite proof to Azure SQL / Fabric
 testing/
   05_parity.sql                        reconciliation and defect log
-  test_fee_math.py                     independent recalculation, 13 tests
+  test_fee_math.py                     independent recalculation, 14 tests
 delivery/
   STATUS.md                            one page: state, risks, decisions needed
   CUTOVER_CHECKLIST.md                 parallel run and go-live gates
@@ -135,6 +169,8 @@ tools/
   run_legacy_workflow.py               reproduces the Alteryx run, no licence
   build_target.py                      loads, builds, reconciles, exports
   yxmd_inventory.py                    parses .yxmd into an inventory + risks
+  verify_fabric_sql.py                 runs the Fabric T-SQL locally, compares
+  compare_fabric_output.py             checks a real Fabric export, account by account
 data/
   input/            accounts, households, holdings, fee schedule
   legacy_output/    the baseline to reconcile against

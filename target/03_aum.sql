@@ -43,9 +43,12 @@ priced AS (
         d.*,
         p.billing_period,
         p.valuation_date,
-        ROW_NUMBER() OVER (
+        -- RANK, not ROW_NUMBER: several lots of one ticker on the same date
+        -- are separate positions and all of them count. ROW_NUMBER kept one
+        -- lot per ticker and silently dropped the rest.
+        RANK() OVER (
             PARTITION BY d.account_id, d.ticker
-            ORDER BY d.as_of_date DESC, d.source_row
+            ORDER BY d.as_of_date DESC
         ) AS price_seq
     FROM v_holdings_deduped d
     CROSS JOIN period p
@@ -110,6 +113,22 @@ WHERE a.is_billable = 1
   AND NOT EXISTS (SELECT 1 FROM fact_account_aum f
                   WHERE f.account_id = a.account_id
                     AND f.billing_period = p.billing_period);
+
+-- GAP-28: more than one lot of a ticker on the price date. Summed as separate
+-- lots, which is what the legacy Summarize did, and raised because a second
+-- lot with a different value can also be a custodian restatement.
+INSERT INTO exception_log
+    (billing_period, reason_code, severity, entity_type, entity_id, detail, amount_at_risk)
+SELECT
+    v.billing_period, 'E26_MULTIPLE_LOTS_SAME_TICKER', 'REVIEW', 'HOLDING',
+    v.account_id,
+    'ticker ' || v.ticker || ' has ' || COUNT(*) || ' positions on ' || v.as_of_date ||
+    ' with different values; summed as separate lots',
+    SUM(v.market_value)
+FROM v_position_asof v
+JOIN dim_account a ON a.account_id = v.account_id
+GROUP BY v.billing_period, v.account_id, v.ticker, v.as_of_date
+HAVING COUNT(*) > 1;
 
 -- GAP-19 duplicate positions collapsed
 INSERT INTO exception_log

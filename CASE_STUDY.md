@@ -67,7 +67,7 @@ record did not make it, and here is why."
 
 Take three gaps and show the reasoning end to end: options, what you
 recommended, why, who confirms, what it costs if you are wrong. GAP-01 is the
-obvious one because $88,236 turns on it in a single quarter.
+obvious one because $91,877 turns on it in a single quarter.
 
 **What makes this section good.** Not that you found the ambiguity — that you
 resolved it with a defensible default instead of escalating it. Say explicitly
@@ -87,8 +87,8 @@ Facts available:
 - Every variance attributed to a numbered gap; `v_defects` holds what cannot be
   attributed, and it is empty
 - All 115 fees recalculated a second way from an independently typed schedule
-- Five invariants asserted; 13 tests, all passing
-- Net movement +$89,058.84 (+14.3%), fully decomposed by cause
+- Five invariants asserted; 14 tests, all passing
+- Net movement +$94,239.38 (+15.1%), fully decomposed by cause
 
 **Make the argument about what parity means.** Matching totals prove nothing.
 Two runs can agree on a total and disagree on every account. The test is whether

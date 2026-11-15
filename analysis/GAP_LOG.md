@@ -29,7 +29,7 @@ is expressed as bands with a floor and a ceiling, which reads as marginal.
 **Evidence.** ACC-1009 holds $1,012,000.01. Cliff pricing charges 75bps on the
 whole balance, $1,897.50 for the quarter. Marginal charges 100bps on the first
 $1M and 75bps on the $12,000 above it, $2,543.23. Across the book the difference
-is **$88,236.09 on 38 accounts in one quarter**. Cliff pricing is also not
+is **$91,877.23 on 38 accounts in one quarter**. Cliff pricing is also not
 monotonic: at $999,999 the quarterly fee is $2,520, and at $1,000,001 it falls
 to $1,890. A client who gains a dollar pays $630 less.
 
@@ -52,7 +52,7 @@ restatement question.*
 **Impact if wrong.** *If marginal is correct, every invoice above $1M has been
 understated for as long as the workflow has run, and the firm owes its clients
 nothing but owes itself a restatement decision. If cliff is somehow the
-contracted term, switching would overbill 38 clients by $88,236 a quarter and
+contracted term, switching would overbill 38 clients by $91,877 a quarter and
 the error would surface as client complaints rather than in reconciliation.*
 
 ---
@@ -370,8 +370,8 @@ and raise the fallback
 **Finding.** A duplicated row in the account extract makes the join fan out, so
 the account is invoiced once per duplicate.
 
-**Evidence.** ACC-1010 appears twice and was **billed twice**, $3,715.88 in
-total. This is the defect most likely to generate a client call.
+**Evidence.** ACC-1010 appears twice and was **billed twice**: two invoices of
+$2,829.87, $5,659.74 in total, against a correct fee of $3,483.26. This is the defect most likely to generate a client call.
 
 **Options.** (a) Deduplicate on load, keep the first occurrence, raise an
 exception · (b) fail the run on any duplicate key · (c) deduplicate silently
@@ -427,6 +427,31 @@ as zero and raise as review · (c) hold the account out of the run until priced
 
 ---
 
+### GAP-28 — Several lots of one ticker on the same date
+
+**Finding.** A custodian file can carry more than one position in the same
+ticker for the same account and date, with different values. The legacy
+Summarize added them all. The first version of the target SQL kept one per
+ticker and dropped the rest, which was a regression introduced by the migration.
+An independent rebuild in T-SQL found it.
+
+**Evidence.** Four ticker groups across the book hold $4,124,513.14. ACC-1010
+alone holds three, and dropping them understated its AUM by $738,058.
+
+**Options.** (a) Sum them as separate lots and raise for review · (b) treat the
+later-loaded row as a restatement and keep only it · (c) reject the extract
+until the custodian confirms
+
+**Recommendation.**
+
+**Rationale.**
+
+**Confirms.**
+
+**Impact if wrong.**
+
+---
+
 ## E. Policy questions with no answer in the data
 
 These are not defects. Nobody has recorded a decision, and the recommendation
@@ -450,13 +475,13 @@ By money in this quarter's run:
 
 | Gap | Net effect | Direction |
 |---|---|---|
-| GAP-01 marginal tiers | $88,236.09 | Firm has been underbilling |
+| GAP-01 marginal tiers | $91,877.23 | Firm has been underbilling |
 | GAP-07 proration | −$28,707.85 | Clients have been overbilled |
 | GAP-16 closed accounts | $28,247.14 | Revenue never invoiced |
 | GAP-03 household tiering | $19,259.31 | Mixed |
 | GAP-23 unknown schedule | −$8,236.83 | Client overbilled |
 | GAP-02 wrong schedule applied | −$7,864.20 | Clients overbilled |
-| GAP-18 duplicate billing | −$3,715.88 | Client billed twice |
+| GAP-18 duplicate billing | −$2,176.48 | Client billed twice |
 
 By client impact rather than money: GAP-18 (billed twice), GAP-07 (invoiced
 $27,295 for two days), and GAP-05 (invoiced on an empty account) are the three

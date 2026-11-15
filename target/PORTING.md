@@ -1,5 +1,9 @@
 # Porting the proof to SQL Server, Azure SQL or Fabric
 
+> **Fabric is done.** See [`fabric/README.md`](../fabric/README.md) for the
+> completed port. This file remains as the general guide for SQL Server and
+> Azure SQL.
+
 The build runs on SQLite so the proof of concept needs no server and no licence:
 clone, run one command, see the result. The SQL is written in set-based ANSI
 style — CTEs, window functions, `CASE`, `FULL OUTER JOIN` — so the move is

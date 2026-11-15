@@ -141,6 +141,42 @@ def main():
         print(f"         {acct}: db {got:,.2f} against {want:,.2f}")
 
     print("\n" + "=" * 78)
+    print("AUM -- recomputed from the holdings file, not from the database")
+    print("=" * 78)
+    # The fee check above trusts fact_account_aum. This one does not: it rebuilds
+    # every account's billable AUM from holdings.csv in plain Python. It exists
+    # because an earlier version of the SQL kept one lot per ticker and dropped
+    # the rest, and the fee check alone could not see it.
+    import csv
+    from collections import defaultdict
+    hpath = os.path.join(BASE, "data", "input", "holdings.csv")
+    with open(hpath, newline="", encoding="utf-8") as fh:
+        raw = list(csv.DictReader(fh))
+    seen, rows = set(), []
+    for r in raw:  # exact duplicates collapse
+        key = (r["account_id"].strip().upper(), r["as_of_date"].strip(),
+               r["ticker"].strip().upper(), r["market_value"].strip())
+        if key not in seen:
+            seen.add(key)
+            rows.append(key)
+    latest = defaultdict(str)  # latest in-period date per (account, ticker)
+    for acct, d, tick, _ in rows:
+        if "2026-07-01" <= d <= "2026-09-30":
+            latest[(acct, tick)] = max(latest[(acct, tick)], d)
+    expected = defaultdict(float)
+    for acct, d, tick, mv in rows:
+        if latest.get((acct, tick)) == d and mv != "":
+            expected[acct] += float(mv)
+    db_aum = dict(conn.execute(
+        "SELECT account_id, market_value FROM fact_account_aum").fetchall())
+    aum_bad = [(a, db_aum[a], expected[a]) for a in db_aum
+               if abs(db_aum[a] - expected[a]) > 0.01]
+    check(f"all {len(db_aum)} account AUM figures match an independent rebuild",
+          float(len(aum_bad)), 0.0, tol=0)
+    for a, got, want in aum_bad[:10]:
+        print(f"         {a}: db {got:,.2f} against {want:,.2f}")
+
+    print("\n" + "=" * 78)
     print("INVARIANTS")
     print("=" * 78)
 

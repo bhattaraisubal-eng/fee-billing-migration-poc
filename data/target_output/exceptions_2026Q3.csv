@@ -19,7 +19,11 @@ billing_period,severity,reason_code,entity_type,entity_id,detail,amount_at_risk
 2026Q3,REVIEW,E15_NEGATIVE_POSITION,HOLDING,ACC-1049,ticker BRK.B carries a negative value of -34024.51; netted against billable AUM,34024.51
 2026Q3,REVIEW,E15_NEGATIVE_POSITION,HOLDING,ACC-1049,ticker MMKT-GOVT carries a negative value of -22487.35; netted against billable AUM,22487.35
 2026Q3,REVIEW,E15_NEGATIVE_POSITION,HOLDING,ACC-1049,ticker VTI carries a negative value of -22000.20; netted against billable AUM,22000.2
-2026Q3,REVIEW,E16_CASH_ONLY_ACCOUNT,ACCOUNT,ACC-1082,entire balance is cash or cash equivalents; billable only if the agreement includes cash,1190520.38
+2026Q3,REVIEW,E16_CASH_ONLY_ACCOUNT,ACCOUNT,ACC-1082,entire balance is cash or cash equivalents; billable only if the agreement includes cash,3116631.1599999997
+2026Q3,REVIEW,E26_MULTIPLE_LOTS_SAME_TICKER,HOLDING,ACC-1010,ticker AGG has 2 positions on 2026-09-30 with different values; summed as separate lots,444126.09
+2026Q3,REVIEW,E26_MULTIPLE_LOTS_SAME_TICKER,HOLDING,ACC-1010,ticker BRK.B has 2 positions on 2026-09-30 with different values; summed as separate lots,307637.12
+2026Q3,REVIEW,E26_MULTIPLE_LOTS_SAME_TICKER,HOLDING,ACC-1010,ticker MUNI-LADDER has 2 positions on 2026-09-30 with different values; summed as separate lots,256118.77000000002
+2026Q3,REVIEW,E26_MULTIPLE_LOTS_SAME_TICKER,HOLDING,ACC-1082,ticker MMKT-GOVT has 4 positions on 2026-09-30 with different values; summed as separate lots,3116631.1599999997
 2026Q3,INFO,E12_CLOSED_IN_PERIOD,ACCOUNT,ACC-1012,closed 2026-08-24; final fee prorated to the closure date,
 2026Q3,INFO,E13_OPENED_IN_PERIOD,ACCOUNT,ACC-1008,opened 2026-08-19; fee prorated from that date,
 2026Q3,INFO,E13_OPENED_IN_PERIOD,ACCOUNT,ACC-1024,opened 2026-09-29; fee prorated from that date,

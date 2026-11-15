@@ -26,7 +26,7 @@ straight cutover. The gate at each stage is a result, not a date.
 - [ ] **Gate: zero unexplained variances.** Every difference traced to a
       signed-off gap. Any row in `v_defects` stops the cutover
 - [ ] Exception log reviewed by Operations each run, not just produced.
-      29 exceptions this quarter, 10 of them blocking
+      33 exceptions this quarter, 10 of them blocking
 - [ ] All BLOCKING exceptions cleared or formally accepted before invoices are
       released
 - [ ] Billing Operations confirms the target output loads into the invoicing
