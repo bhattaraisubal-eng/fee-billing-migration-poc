@@ -1,0 +1,15 @@
+attribution,accounts,net_variance
+GAP-01 marginal tiers replace one rate on the whole balance,38,88236.09
+GAP-07 fee prorated to the days actually held,2,-28707.85
+GAP-16 account closed mid-period; no final fee was raised,1,28247.14
+GAP-03 household tiering applied as contracted,25,19259.31
+GAP-D account priced on STD despite an unrecognised schedule code,1,-8236.83
+GAP-02 priced on the account's own schedule instead of STD,8,-7864.2
+GAP-18 duplicate account row double-billed the client,1,-3715.88
+GAP-12 join failed on an untrimmed key; client was never billed,1,1287.24
+GAP-17 status outside the ACTIVE filter; revenue silently stopped,1,1077.6
+GAP-19 duplicate position no longer double-counted,1,-406.12
+GAP-06 day count replaces the fixed quarter divisor,33,373.95
+GAP-D account priced on STD despite having no schedule code,1,-250.0
+GAP-05 minimum fee was charged on a negative balance,1,-250.0
+GAP-20 unpriced position excluded rather than treated as zero,1,8.39

@@ -1,0 +1,9 @@
+schedule_code,tier_seq,tier_min,tier_max,annual_rate_bps,minimum_fee_qtr,schedule_name
+STD,1,0,1000000,100,250,Standard Advisory
+STD,2,1000000,5000000,75,250,Standard Advisory
+STD,3,5000000,10000000,50,250,Standard Advisory
+STD,4,10000000,0,35,250,Standard Advisory
+INST,1,0,10000000,40,0,Institutional
+INST,2,10000000,50000000,25,0,Institutional
+INST,3,50000000,0,15,0,Institutional
+LEGACY2015,1,0,0,90,0,Grandfathered 2015

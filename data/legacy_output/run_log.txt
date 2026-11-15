@@ -1,0 +1,22 @@
+FeeBilling_Quarterly_v7_FINAL.yxmd -- simulated run
+================================================================
+[1] Input accounts.csv       121 records
+[2] Input holdings.csv       655 records
+[3] Filter as_of_date        T: 654  F: 1 (F anchor unconnected)
+[4] Summarize                119 records (grouped from 654)
+[5] Filter status=ACTIVE     T: 118  F: 3 (F anchor unconnected)
+[6] Join account_id          J: 116  L dropped: 2  R dropped: 4
+[7] Formula rate             116 records
+[8] Formula fee + minimum    116 records
+[9] Select                   116 records, 10 fields
+[10] Filter billable_fee>0   T: 116  F: 0
+[out] billing_2026Q3.csv     116 records written
+[out] exceptions_2026Q3.csv  0 records written
+
+Run summary
+  accounts in:          121
+  holdings in:          655
+  accounts billed:      116
+  exceptions:           0
+  total fees invoiced:  $622,914.34
+

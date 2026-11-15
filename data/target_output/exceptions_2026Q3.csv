@@ -1,0 +1,30 @@
+billing_period,severity,reason_code,entity_type,entity_id,detail,amount_at_risk
+2026Q3,BLOCKING,E01_HOLDING_WITHOUT_ACCOUNT,ACCOUNT,ACC-9901,4 positions totalling 2450000.00 have no matching account record; no fee can be raised,2450000.0
+2026Q3,BLOCKING,E02_ACCOUNT_WITHOUT_HOLDINGS,ACCOUNT,ACC-1120,account is billable but absent from the holdings extract; either unfunded or the extract is incomplete,
+2026Q3,BLOCKING,E04_DUPLICATE_ACCOUNT_ROW,ACCOUNT,ACC-1010,account appears 2 times in the source extract; collapsed to one,
+2026Q3,BLOCKING,E06_POSITION_VALUE_NULL,HOLDING,ACC-1057,ticker PRIVATE-FUND-LP (ALTERNATIVE) has no market value; excluded from billable AUM pending a price,
+2026Q3,BLOCKING,E07_FEE_SCHEDULE_UNKNOWN,ACCOUNT,ACC-1019,"fee_schedule_code ""PREMIER"" is not in the published schedule; account held out of the run",
+2026Q3,BLOCKING,E08_FEE_SCHEDULE_MISSING,ACCOUNT,ACC-1063,fee_schedule_code (empty) is not in the published schedule; account held out of the run,
+2026Q3,BLOCKING,E22_HOUSEHOLD_SCHEDULE_MIXED,HOUSEHOLD,HH-1009,contracted for household tiering but its accounts carry 2 different schedule codes; billed per account pending a decision,17004902.81
+2026Q3,BLOCKING,E22_HOUSEHOLD_SCHEDULE_MIXED,HOUSEHOLD,HH-1018,contracted for household tiering but its accounts carry 2 different schedule codes; billed per account pending a decision,414366.28
+2026Q3,BLOCKING,E22_HOUSEHOLD_SCHEDULE_MIXED,HOUSEHOLD,HH-1027,contracted for household tiering but its accounts carry 2 different schedule codes; billed per account pending a decision,5013343.0
+2026Q3,BLOCKING,E22_HOUSEHOLD_SCHEDULE_MIXED,HOUSEHOLD,HH-1051,contracted for household tiering but its accounts carry 2 different schedule codes; billed per account pending a decision,4981148.59
+2026Q3,REVIEW,E03_KEY_NEEDED_NORMALISING,ACCOUNT,ACC-1030,"source key was ""ACC-1030 ""; joined after trim and upper",
+2026Q3,REVIEW,E05_DUPLICATE_POSITION,HOLDING,ACC-1021,ticker BND appears 2 times with an identical value on 2026-09-30; counted once,579644.51
+2026Q3,REVIEW,E09_AUM_NEGATIVE,ACCOUNT,ACC-1049,billable AUM is -109764.75; no fee raised and the minimum is not applied,
+2026Q3,REVIEW,E10_STATUS_UNEXPECTED,ACCOUNT,ACC-1054,"status ""PENDING_CLOSE"" is outside the agreed set; treated as billable pending confirmation",
+2026Q3,REVIEW,E11_PRICE_NOT_ON_VALUATION_DATE,HOLDING,ACC-1013,ticker MUNI-LADDER priced 2026-09-29 not 2026-09-30; most recent price in the period was used,842150.0
+2026Q3,REVIEW,E15_NEGATIVE_POSITION,HOLDING,ACC-1035,ticker MARGIN-DEBIT carries a negative value of -247518.12; netted against billable AUM,247518.12
+2026Q3,REVIEW,E15_NEGATIVE_POSITION,HOLDING,ACC-1049,ticker AAPL carries a negative value of -31252.69; netted against billable AUM,31252.69
+2026Q3,REVIEW,E15_NEGATIVE_POSITION,HOLDING,ACC-1049,ticker BRK.B carries a negative value of -34024.51; netted against billable AUM,34024.51
+2026Q3,REVIEW,E15_NEGATIVE_POSITION,HOLDING,ACC-1049,ticker MMKT-GOVT carries a negative value of -22487.35; netted against billable AUM,22487.35
+2026Q3,REVIEW,E15_NEGATIVE_POSITION,HOLDING,ACC-1049,ticker VTI carries a negative value of -22000.20; netted against billable AUM,22000.2
+2026Q3,REVIEW,E16_CASH_ONLY_ACCOUNT,ACCOUNT,ACC-1082,entire balance is cash or cash equivalents; billable only if the agreement includes cash,1190520.38
+2026Q3,INFO,E12_CLOSED_IN_PERIOD,ACCOUNT,ACC-1012,closed 2026-08-24; final fee prorated to the closure date,
+2026Q3,INFO,E13_OPENED_IN_PERIOD,ACCOUNT,ACC-1008,opened 2026-08-19; fee prorated from that date,
+2026Q3,INFO,E13_OPENED_IN_PERIOD,ACCOUNT,ACC-1024,opened 2026-09-29; fee prorated from that date,
+2026Q3,INFO,E13_OPENED_IN_PERIOD,ACCOUNT,ACC-1120,opened 2026-09-15; fee prorated from that date,
+2026Q3,INFO,E14_OUT_OF_PERIOD,ACCOUNT,ACC-1032,"closed 2026-05-30, before the period opened; no fee due",
+2026Q3,INFO,E23_HOUSEHOLD_ROUNDING_DRIFT,HOUSEHOLD,HH-1015,allocated account fees sum to 5457.5500 against a household fee of 5457.5436 (drift +0.0064),0.0064
+2026Q3,INFO,E23_HOUSEHOLD_ROUNDING_DRIFT,HOUSEHOLD,HH-1033,allocated account fees sum to 8190.1300 against a household fee of 8190.1354 (drift -0.0054),-0.0054
+2026Q3,INFO,E23_HOUSEHOLD_ROUNDING_DRIFT,HOUSEHOLD,HH-1048,allocated account fees sum to 18627.4300 against a household fee of 18627.4248 (drift +0.0052),0.0052
