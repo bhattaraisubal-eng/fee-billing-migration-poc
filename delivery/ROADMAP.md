@@ -18,6 +18,10 @@ python3 tools/yxmd_inventory.py /path/to/workflows/ --csv backlog.csv
 Output for workflow 1 is in `workflow_backlog.csv`. The same command over the
 full estate gives the inventory the plan below is built on.
 
+## The loop each workflow runs
+
+![Migration process](../docs/migration_process.svg)
+
 ## Complexity scoring
 
 Tool count is a poor proxy for effort. What makes a migration hard is the tools

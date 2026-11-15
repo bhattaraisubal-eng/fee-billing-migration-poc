@@ -72,6 +72,12 @@ about them.
    $45.27M for 55 days was invoiced nothing.** Consequences of defects 1 and of
    a status filter that drops closed accounts.
 
+## The process, per workflow
+
+![Seven steps across five phases, with three gates that loop back on failure](docs/migration_process.svg)
+
+Every remaining workflow goes through the same loop. Each failed gate returns to the step that can fix it: an unsigned decision goes back to the gap log, an unexplained variance goes back to the build, and an uncleared blocking exception reruns the parallel quarter. Editable source: [`docs/migration_process.excalidraw`](docs/migration_process.excalidraw).
+
 ## How parity is proved
 
 Matching totals prove nothing. The test is whether every account where the two
