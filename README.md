@@ -6,7 +6,7 @@ surface the ambiguities and recommend resolutions, rebuild in SQL, and prove
 parity account by account before cutover.
 
 ```bash
-git clone <this repo> && cd fee-billing-migration
+git clone <this repo> && cd fee-billing-migration-poc
 ./run_all.sh
 ```
 
